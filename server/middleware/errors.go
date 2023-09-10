@@ -17,7 +17,7 @@ func HTTPErrorHandler(err error, c echo.Context) {
 				Message: "The server encountered an internal error and was unable to complete your request", Details: nil},
 		}
 
-		if errors.Is(err, echo.ErrNotFound) {
+		if errors.Is(err, echo.ErrNotFound) || errors.Is(err, echo.ErrMethodNotAllowed) {
 			handledError = responses.NotFoundError
 		} else {
 			if ok := errors.As(err, &handledError); !ok {

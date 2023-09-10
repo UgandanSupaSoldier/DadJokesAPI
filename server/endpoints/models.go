@@ -3,11 +3,10 @@ package endpoints
 import "time"
 
 type JokeViewmodel struct {
-	Text       string `validate:"required"`
-	Author     *string
-	Category   *string
-	Rating     *float32 `validate:"max=10"`
-	InsertedAt time.Time
+	Text     string
+	Author   *string
+	Category *string
+	Rating   *float32
 }
 
 type TokenViewmodel struct {

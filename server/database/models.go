@@ -15,3 +15,11 @@ type Joke struct {
 	Rating     *float32
 	InsertedAt time.Time
 }
+
+type Log struct {
+	Time         time.Time
+	RequestUrl   string
+	RequestBody  string
+	ResponseBody string
+	ResponseCode int
+}

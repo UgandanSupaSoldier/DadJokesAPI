@@ -49,7 +49,7 @@ func DynamicRateLimiter() echo.MiddlewareFunc {
 					return (*rl)(next)(c)
 				}
 			}
-			return next(c)
+				return next(c)
 		}
 	}
 }

@@ -12,3 +12,12 @@ CREATE TABLE jokes (
     rating NUMERIC(3,1),
     inserted_at TIMESTAMP NOT NULL DEFAULT now()
 );
+
+CREATE TABLE logs (
+    time TIMESTAMP,
+    request_url TEXT,
+    request_body TEXT,
+    response_body TEXT,
+    response_code INTEGER
+);
+CREATE INDEX time_index ON logs(time);

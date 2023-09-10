@@ -14,9 +14,9 @@ func NewToken(c echo.Context) error {
 
 	expiryString := c.QueryParam("expiry")
 	if len(expiryString) > 0 {
-		expiryTime, err := time.Parse(time.RFC3339, expiryString)
+		expiryTime, err := time.Parse("2006-01-02T15:04:05", expiryString)
 		if err != nil {
-			return responses.ErrorWithDetails(responses.InvalidQueryError, "expiry is not in valid RFC3339 format")
+			return responses.ErrorWithDetails(responses.InvalidQueryError, "expiry is not in valid format (YYYY-MM-DDTHH:MM:SS)")
 		}
 		if expiryTime.Before(time.Now()) {
 			return responses.ErrorWithDetails(responses.InvalidQueryError, "expiry may only contain future dates")

@@ -3,9 +3,9 @@ package endpoints
 import (
 	"DadJokesAPI/server/database"
 	"DadJokesAPI/server/responses"
+	"math"
 	"strconv"
 
-	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 )
 
@@ -45,22 +45,31 @@ func CreateJoke(c echo.Context) error {
 		return responses.InvalidJSONError
 	}
 
-	if err = validator.New().Struct(inputJoke); err != nil {
-		errors := make(map[string]string)
-		for _, err := range err.(validator.ValidationErrors) {
-			errors[err.Field()] = err.Tag()
-		}
+	errors := make(map[string]string)
+	if len(inputJoke.Text) == 0 {
+		errors["text"] = "text is required"
+	}
+	if inputJoke.Rating != nil && *inputJoke.Rating > 10 {
+		errors["rating"] = "rating must be between 0 and 10"
+	}
+	if len(errors) > 0 {
 		return responses.ErrorWithDetails(responses.InvalidDataError, errors)
 	}
 
-	if err = database.CreateJoke(database.Joke{
+	if inputJoke.Rating != nil {
+		rating := float32(math.Round(float64(*inputJoke.Rating)*10) / 10)
+		inputJoke.Rating = &rating
+	}
+
+	joke, err := database.CreateJoke(database.Joke{
 		Text:     inputJoke.Text,
 		Author:   inputJoke.Author,
 		Category: inputJoke.Category,
 		Rating:   inputJoke.Rating,
-	}); err != nil {
+	})
+	if err != nil {
 		return err
 	}
 
-	return c.JSON(responses.GenerateResponse(nil, nil))
+	return c.JSON(responses.GenerateResponse(joke, nil))
 }

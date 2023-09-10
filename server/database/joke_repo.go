@@ -34,16 +34,16 @@ func SearchJokes(page int, size int) ([]Joke, error) {
 	return rdbJokes, nil
 }
 
-func CreateJoke(joke Joke) error {
+func CreateJoke(joke Joke) (Joke, error) {
 	db, err := shared.Connect()
 	if err != nil {
-		return err
+		return Joke{}, err
 	}
 
 	joke.InsertedAt = time.Now()
 	err = db.Create(&joke).Error
 	if err != nil {
-		return fmt.Errorf("failed to create joke: %w", err)
+		return Joke{}, fmt.Errorf("failed to create joke: %w", err)
 	}
-	return nil
+	return joke, nil
 }

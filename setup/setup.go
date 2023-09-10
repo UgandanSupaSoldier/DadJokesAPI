@@ -148,7 +148,7 @@ func setupDatabase() error {
 
 	jokes := strings.Split(string(jokeList), "\n")
 	for _, joke := range jokes {
-		if err = database.CreateJoke(database.Joke{
+		if _, err = database.CreateJoke(database.Joke{
 			Text: joke,
 		}); err != nil {
 			return fmt.Errorf("failed to create joke: %w", err)
