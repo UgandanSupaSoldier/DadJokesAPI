@@ -2,11 +2,11 @@ version: '3'
 services:
   postgres:
     image: postgres:latest
-    container_name: my-postgres
+    container_name: dad-jokes-postgres
     env_file:
       - .env
     ports:
-      - "${HOST_PORT}:${CONTAINER_PORT}"
+      - "${HOST_PORT}:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
