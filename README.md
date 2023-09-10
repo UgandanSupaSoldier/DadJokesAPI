@@ -2,12 +2,11 @@
 
 TODO:
 Fix expiry timezone
-Tests
+Tests (+expiry)
 Token in request logs
 Docs
 Improve setup script
 Improve logging
 Token Management
 Cache
-Banner.txt
-Build scripts
+Install docker in setup???

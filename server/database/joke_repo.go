@@ -3,7 +3,6 @@ package database
 import (
 	"DadJokesAPI/shared"
 	"fmt"
-	"time"
 )
 
 func RandomJoke() (Joke, error) {
@@ -40,7 +39,6 @@ func CreateJoke(joke Joke) (Joke, error) {
 		return Joke{}, err
 	}
 
-	joke.InsertedAt = time.Now()
 	err = db.Create(&joke).Error
 	if err != nil {
 		return Joke{}, fmt.Errorf("failed to create joke: %w", err)

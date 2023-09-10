@@ -10,10 +10,7 @@ import (
 )
 
 func Run() error {
-	server := echo.New()
-
-	setupMiddleware(server)
-	setupRoutes(server)
+	server := SetupServer()
 
 	port := shared.GetIntDef("server.port", 8080)
 	err := server.Start(fmt.Sprintf("0.0.0.0:%d", port))
@@ -21,6 +18,15 @@ func Run() error {
 		return fmt.Errorf("failed to start server: %w", err)
 	}
 	return nil
+}
+
+func SetupServer() *echo.Echo {
+	server := echo.New()
+
+	setupMiddleware(server)
+	setupRoutes(server)
+
+	return server
 }
 
 func setupMiddleware(server *echo.Echo) {

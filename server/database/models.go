@@ -8,12 +8,11 @@ type Token struct {
 }
 
 type Joke struct {
-	ID         int `gorm:"primaryKey,column:id"`
-	Text       string
-	Author     *string
-	Category   *string
-	Rating     *float32
-	InsertedAt time.Time
+	ID       int `gorm:"primaryKey,column:id"`
+	Text     string
+	Author   *string
+	Category *string
+	Rating   *float32
 }
 
 type Log struct {

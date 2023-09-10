@@ -30,6 +30,8 @@ func HTTPErrorHandler(err error, c echo.Context) {
 		}
 
 		err = c.JSON(responses.GenerateResponse(nil, handledError))
-		log.Errorf("failed to generate JSON error response: %v", err)
+		if err != nil {
+			log.Errorf("failed to generate JSON error response: %v", err)
+		}
 	}
 }

@@ -9,8 +9,7 @@ CREATE TABLE jokes (
     text TEXT NOT NULL,
     author VARCHAR(255),
     category VARCHAR(255),
-    rating NUMERIC(3,1),
-    inserted_at TIMESTAMP NOT NULL DEFAULT now()
+    rating NUMERIC(3,1)
 );
 
 CREATE TABLE logs (
