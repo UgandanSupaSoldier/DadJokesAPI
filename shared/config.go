@@ -8,10 +8,15 @@ import (
 )
 
 var config *toml.Tree
+var configPath = "config.toml"
+
+func SeConfigtPath(path string) {
+	configPath = path
+}
 
 func loadConf() (*toml.Tree, error) {
 	if config == nil {
-		configFile, err := os.Open("config.toml")
+		configFile, err := os.Open(configPath)
 		if err != nil {
 			return nil, fmt.Errorf("failed to open config file: %w", err)
 		}

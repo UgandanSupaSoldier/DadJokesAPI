@@ -44,20 +44,21 @@ func setupConfig() error {
 		"[server]",
 		"port = 8080",
 		"debug = true",
-
+		"",
 		"[postgres]",
+		"debug = false",
 		"port = 12345",
 		"db = \"dad-jokes-api\"",
 		"user = \"db-username\"",
 		"password = \"db-password\"",
 		"max_idle_connections = 8",
 		"max_open_connections = 64",
-
+		"",
 		"[rate_limiter]",
-		"enabled = false",
 		"rate = 1",
 		"burst = 10",
 		"timeout = 180",
+		"enabled = false",
 	}
 	if err = writeLines(configFile, lines); err != nil {
 		return fmt.Errorf("failed to write config file: %w", err)

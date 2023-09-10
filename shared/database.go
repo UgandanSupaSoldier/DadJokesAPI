@@ -42,7 +42,7 @@ func Connect() (*gorm.DB, error) {
 		db.SetMaxIdleConns(GetIntDef("postgres.max_idle_connections", 8))
 		db.SetMaxOpenConns(GetIntDef("postgres.max_open_connections", 64))
 
-		if GetBoolDef("server.debug", false) {
+		if GetBoolDef("postgres.debug", false) {
 			dbConnection = dbConnection.Debug()
 		}
 		connection = dbConnection

@@ -7,6 +7,7 @@ import (
 	"fmt"
 
 	"github.com/labstack/echo/v4"
+	log "github.com/sirupsen/logrus"
 )
 
 func Run() error {
@@ -23,8 +24,9 @@ func Run() error {
 func SetupServer() *echo.Echo {
 	server := echo.New()
 
-	setupMiddleware(server)
+	setupLogging()
 	setupRoutes(server)
+	setupMiddleware(server)
 
 	return server
 }
@@ -47,4 +49,13 @@ func setupRoutes(server *echo.Echo) {
 	joke.GET("/random", endpoints.RandomJoke)
 	joke.GET("/search", endpoints.SearchJokes)
 	joke.POST("/create", endpoints.CreateJoke, middleware.AuthUser)
+}
+
+func setupLogging() {
+	if shared.GetBoolDef("server.debug", true) {
+		log.SetLevel(log.DebugLevel)
+	} else {
+		log.SetLevel(log.InfoLevel)
+	}
+	log.SetFormatter(&log.TextFormatter{FullTimestamp: true, TimestampFormat: "2006-01-02 15:04:05"})
 }

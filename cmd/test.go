@@ -23,7 +23,7 @@ var testCmd = &cobra.Command{
 }
 
 func runTests() error {
-	command := exec.Command("go", "test", "./tests")
+	command := exec.Command("go", "test", "-v", "./tests")
 	stdout, err := command.StdoutPipe()
 	if err != nil {
 		return fmt.Errorf("failed to get stdout pipe: %w", err)
