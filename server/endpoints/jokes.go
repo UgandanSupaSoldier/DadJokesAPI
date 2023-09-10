@@ -5,6 +5,7 @@ import (
 	"DadJokesAPI/server/responses"
 	"strconv"
 
+	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 )
 
@@ -44,14 +45,20 @@ func CreateJoke(c echo.Context) error {
 		return responses.InvalidJSONError
 	}
 
-	err = database.CreateJoke(database.Joke{
+	if err = validator.New().Struct(inputJoke); err != nil {
+		errors := make(map[string]string)
+		for _, err := range err.(validator.ValidationErrors) {
+			errors[err.Field()] = err.Tag()
+		}
+		return responses.ErrorWithDetails(responses.InvalidDataError, errors)
+	}
+
+	if err = database.CreateJoke(database.Joke{
 		Text:     inputJoke.Text,
 		Author:   inputJoke.Author,
 		Category: inputJoke.Category,
 		Rating:   inputJoke.Rating,
-		Tags:     inputJoke.Tags,
-	})
-	if err != nil {
+	}); err != nil {
 		return err
 	}
 

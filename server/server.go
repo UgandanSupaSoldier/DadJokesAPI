@@ -15,7 +15,7 @@ func Run() error {
 	setupMiddleware(server)
 	setupRoutes(server)
 
-	port := shared.GetIntDef("server.address", 8080)
+	port := shared.GetIntDef("server.port", 8080)
 	err := server.Start(fmt.Sprintf("0.0.0.0:%d", port))
 	if err != nil {
 		return fmt.Errorf("failed to start server: %w", err)

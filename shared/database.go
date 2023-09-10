@@ -1,7 +1,6 @@
-package database
+package shared
 
 import (
-	"DadJokesAPI/shared"
 	"fmt"
 
 	"gorm.io/driver/postgres"
@@ -10,21 +9,21 @@ import (
 
 var connection *gorm.DB
 
-func connect() (*gorm.DB, error) {
+func Connect() (*gorm.DB, error) {
 	if connection == nil {
-		user, err := shared.GetStr("postgres.user")
+		user, err := GetStr("postgres.user")
 		if err != nil {
 			return nil, fmt.Errorf("failed to get postgres user: %w", err)
 		}
-		password, err := shared.GetStr("postgres.password")
+		password, err := GetStr("postgres.password")
 		if err != nil {
 			return nil, fmt.Errorf("failed to get postgres password: %w", err)
 		}
-		dbName, err := shared.GetStr("postgres.db")
+		dbName, err := GetStr("postgres.db")
 		if err != nil {
 			return nil, fmt.Errorf("failed to get postgres db name: %w", err)
 		}
-		port, err := shared.GetInt("postgres.port")
+		port, err := GetInt("postgres.port")
 		if err != nil {
 			return nil, fmt.Errorf("failed to get postgres port: %w", err)
 		}
@@ -40,10 +39,10 @@ func connect() (*gorm.DB, error) {
 			return nil, fmt.Errorf("failed to get database connection: %w", err)
 		}
 
-		db.SetMaxIdleConns(shared.GetIntDef("postgres.max_idle_connections", 8))
-		db.SetMaxOpenConns(shared.GetIntDef("postgres.max_open_connections", 64))
+		db.SetMaxIdleConns(GetIntDef("postgres.max_idle_connections", 8))
+		db.SetMaxOpenConns(GetIntDef("postgres.max_open_connections", 64))
 
-		if shared.GetBoolDef("postgres.query_debugging", false) {
+		if GetBoolDef("server.debug", false) {
 			dbConnection = dbConnection.Debug()
 		}
 		connection = dbConnection

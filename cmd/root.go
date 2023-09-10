@@ -16,7 +16,7 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:     "CLI",
+	Use:     "API",
 	Long:    banner,
 	Example: examples,
 }

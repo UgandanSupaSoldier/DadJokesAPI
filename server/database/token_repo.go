@@ -2,6 +2,7 @@ package database
 
 import (
 	"DadJokesAPI/server/responses"
+	"DadJokesAPI/shared"
 	"errors"
 	"fmt"
 	"time"
@@ -10,7 +11,7 @@ import (
 )
 
 func ValidToken(token string) error {
-	db, err := connect()
+	db, err := shared.Connect()
 	if err != nil {
 		return err
 	}
@@ -32,7 +33,7 @@ func ValidToken(token string) error {
 }
 
 func CreateToken(token string, expires_at *time.Time) (Token, error) {
-	db, err := connect()
+	db, err := shared.Connect()
 	if err != nil {
 		return Token{}, err
 	}

@@ -1,12 +1,13 @@
 package database
 
 import (
+	"DadJokesAPI/shared"
 	"fmt"
 	"time"
 )
 
 func RandomJoke() (Joke, error) {
-	db, err := connect()
+	db, err := shared.Connect()
 	if err != nil {
 		return Joke{}, err
 	}
@@ -20,7 +21,7 @@ func RandomJoke() (Joke, error) {
 }
 
 func SearchJokes(page int, size int) ([]Joke, error) {
-	db, err := connect()
+	db, err := shared.Connect()
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +35,7 @@ func SearchJokes(page int, size int) ([]Joke, error) {
 }
 
 func CreateJoke(joke Joke) error {
-	db, err := connect()
+	db, err := shared.Connect()
 	if err != nil {
 		return err
 	}

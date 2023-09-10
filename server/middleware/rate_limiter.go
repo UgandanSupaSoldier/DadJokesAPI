@@ -15,9 +15,9 @@ var (
 )
 
 func newMemoryStore() middleware.RateLimiterStore {
-	rateLimit := shared.GetIntDef("rate_limits.rate", 1)
-	burstLimit := shared.GetIntDef("rate_limits.burst", 10)
-	timeout := shared.GetIntDef("rate_limits.timeout", 180)
+	rateLimit := shared.GetIntDef("rate_limiter.rate", 1)
+	burstLimit := shared.GetIntDef("rate_limiter.burst", 10)
+	timeout := shared.GetIntDef("rate_limiter.timeout", 180)
 
 	return middleware.NewRateLimiterMemoryStoreWithConfig(
 		middleware.RateLimiterMemoryStoreConfig{
@@ -44,8 +44,10 @@ func getRateLimiter() *echo.MiddlewareFunc {
 func DynamicRateLimiter() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			if rl := getRateLimiter(); rl != nil {
-				return (*rl)(next)(c)
+			if shared.GetBoolDef("rate_limiter.enabled", false) {
+				if rl := getRateLimiter(); rl != nil {
+					return (*rl)(next)(c)
+				}
 			}
 			return next(c)
 		}

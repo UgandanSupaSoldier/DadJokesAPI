@@ -1,9 +1,9 @@
 package responses
 
 type ResponseError struct {
-	Type    string  `json:"type,omitempty"`
-	Message string  `json:"message,omitempty"`
-	Details *string `json:"details,omitempty"`
+	Type    string      `json:"type,omitempty"`
+	Message string      `json:"message,omitempty"`
+	Details interface{} `json:"details,omitempty"`
 }
 
 type ErrorType struct {
@@ -17,6 +17,7 @@ func (e *ErrorType) Error() string {
 
 var (
 	InvalidJSONError  = &ErrorType{400, ResponseError{"invalid_json", "The request body contains incorrectly formatted JSON data", nil}}
+	InvalidDataError  = &ErrorType{400, ResponseError{"invalid_data", "The request body contains invalid or missing data", nil}}
 	InvalidQueryError = &ErrorType{400, ResponseError{"invalid_query", "The request query string is missing a required option", nil}}
 
 	AuthMissingError  = &ErrorType{401, ResponseError{"unauthorized", "The request is missing an authorization header", nil}}
@@ -28,7 +29,7 @@ var (
 	TooManyRequestsError = &ErrorType{429, ResponseError{"too_many_requests", "Too many requests have been made to this resource", nil}}
 )
 
-func ErrorWithDetails(err *ErrorType, details string) *ErrorType {
-	err.Details = &details
+func ErrorWithDetails(err *ErrorType, details interface{}) *ErrorType {
+	err.Details = details
 	return err
 }

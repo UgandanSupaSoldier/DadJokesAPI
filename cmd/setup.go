@@ -15,7 +15,7 @@ var setupCmd = &cobra.Command{
 	Short:        "Configures the server and database",
 	Long:         banner,
 	SilenceUsage: true,
-	Run: func(cmd *cobra.Command, args []string) {
-		setup.Run()
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return setup.Run()
 	},
 }
