@@ -6,7 +6,7 @@ In order to build and run this project, you will require the following prerequis
 * Docker Compose
 * Go 1.20 or later
 
-*<b>Note</b>: This project was designed to run primarily on linux distributions. Although it is possible to compile the project into a windows compatible binary, this is currently untested.*
+*<b>Note</b>: This project was designed to run primarily on Linux distributions. Although it is possible to compile the project into a Windows-compatible binary, this is currently untested.*
 
 ## Installation
 This project is configured to run as a ```CLI``` tool. The CLI tool consists of three primary commands:
@@ -14,7 +14,7 @@ This project is configured to run as a ```CLI``` tool. The CLI tool consists of 
 2. ```Serve``` is used to launch the API server.
 3. ```Test``` is used to run the unit tests found within the tests folder.
 
-Included in the root directory of the project is a shell script which will build an executable binary to launch the CLI. Alternatively the main.go can be run directly. As such, the server can be setup as follows:
+Included in the root directory of the project is a shell script that will build an executable binary of the CLI. Alternatively the main.go can be run directly. As such, the server can be setup as follows:
 
 1. Directly using Go:
 ```
@@ -26,9 +26,9 @@ Included in the root directory of the project is a shell script which will build
     ./CLI_linux_<ARCH> setup
 ```
 
-This will first create a <b>config.toml</b> file with default server config (please refer to the donfig section for details on the config.toml) in the projects root directory. It will then create and start a postgres docker container called dad-jokes-postgres and populate it's schema and data with the preset jokes.txt file.<
+This will first create a <b>config.toml</b> file with default server config (please refer to the config section for details on the config.toml) in the project root directory. It will then create and start a Postgres docker container called dad-jokes-postgres and populate its schema and data with the preset jokes.txt file.<
 
-*<b>Note</b>: If you wish to create a database with custom config, then you should create the config.toml before running setup.*<br>
+*<b>Note</b>: If you wish to create a database with custom a config, then you should create the config.toml before running setup.*<br>
 *<b>Note</b>: For more information on the CLI commands, you can run the CLI with no arguments or with the -h help flag.*
 ## Config
 The default config.toml file is structured as follows:
@@ -60,16 +60,16 @@ enabled = false
 
 ### Postgres
 * ```debug``` toggles database query debugging logs.
-* ```port``` sets the port which will be exposed by the docker container.
+* ```port``` sets the port that will be exposed by the docker container.
 * ```db``` sets the name of the database where the data will be stored.
-* ```user``` sets the login name for the postgres user.
-* ```password``` sets the login password for the postgres user.
+* ```user``` sets the login name for the Postgres user.
+* ```password``` sets the login password for the Postgres user.
 * ```max_idle_connections``` sets the maximum number of idle connections
 * ```max_open_connections``` sets the maximum number of open connections
 
 ### Rate Limiter
 * ```rate``` sets the maximum rate at which requests may be made to the server in requests per second.
-* ```burst``` sets the maximum concurrent api calls allowed to pass, and may allow exceeding the rate.
+* ```burst``` sets the maximum concurrent API calls allowed to pass, and may allow exceeding the rate.
 * ```timeout``` sets the timeout for clearing old rate_limiter cache data such as IP addresses
 * ```enabled``` toggles whether to enable or disable the rate limiter
 
@@ -86,7 +86,7 @@ All responses are structured as follows:
     "error": map[string]interface
 }
 ```
-Where the data is the object returned, and the error contains any errors that occured in the form:
+Where the data is the object returned, and the error contains any errors that occurred in the form:
 ```
 {
     "type": <string>,
@@ -136,20 +136,20 @@ The ```page_size``` parameter sets the size of the page returned.
 Returns the list of jokes in the response's data section.
 
 #### POST /v1/joke/create
-Used to create new jokes, and accepts a json encoded body with the <b>joke</b> in the same format as described in the resources section above. Note that the joke's text is required, and the maximum value of the rating is 10. This resource is protected and requires a valid auth token to access.
+Used to create new jokes, and accepts a JSON-encoded body with the <b>joke</b> in the same format as described in the resources section above. Note that the joke's text is required, and the maximum value of the rating is 10. This resource is protected and requires a valid auth token to access.
 
 The created joke resource is returned in the response's data section.
 
 ### Misc
 
 #### Logging
-All requests made to the server as well as their responses are recorded to the database in a table called ```logs```. This is handled by a logging middleware in ```logging.go```, and can be modified to record any information needed about api calls.
+All requests made to the server as well as their responses are recorded to the database in a table called ```logs```. This is handled by a logging middleware in ```logging.go```, and can be modified to record any information needed about API calls.
 
 #### Panics
 All panics on the server are handled in the ```panic_handler.go``` middleware file. For external or incident logging and paging, this is where additional functionality can be injected.
 
 #### Uninstallation
-Currently there is no uninstallation scripts or support. As such, in order to remove this service completely, the docker container and volume associated with this program will need to be removed manually. This can be done by navigating to the setup directory and running the following:
+Currently, there is no uninstallation script or support. As such, in order to remove this service completely, the docker container and volume associated with this program will need to be removed manually. This can be done by navigating to the setup directory and running the following:
 ```
 docker-compose down
 docker volume rm setup_postgres-data
@@ -166,5 +166,5 @@ These are some features or improvements that, given more time, would have been i
 * Response caching.
 * More verbose logging throughout the system for better visibility.
 * Using an interface for the logging and database components, to allow for better flexibility.
-* Splitting of view, system and database models.
+* Splitting of view, system, and database models.
 * Support for timezone in token expiry parameter
